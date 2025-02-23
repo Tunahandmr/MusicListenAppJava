@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "551477097001",
+    "project_id": "music-listen-abade",
+    "storage_bucket": "music-listen-abade.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551477097001:android:2a1485b6c23ceadc32e238",
+        "android_client_info": {
+          "package_name": "com.tunahan.musiclistenappjava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhcD4vLqNqwUkvEapapw6onr5p5g3PUmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
