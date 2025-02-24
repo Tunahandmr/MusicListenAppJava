@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/black"
+    android:padding="24dp">
+
+    <!-- Üst kısımda büyük metin -->
+    <TextView
+        android:id="@+id/tvWelcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Millions of songs.\nFree on Spotify."
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="48dp"/>
+
+    <!-- Sign up free butonu -->
+    <Button
+        android:id="@+id/btnSignUpFree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign up free"
+        android:textAllCaps="false"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#1DB954"
+    android:textColor="@android:color/white"
+    android:textSize="16sp"/>
+
+    <!-- Continue with Google -->
+    <Button
+        android:id="@+id/btnContinueGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue with Google"
+        android:textAllCaps="false"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/darker_gray"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"/>
+
+
+
+    <!-- Log in metni (tıklanabilir) -->
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"/>
+</LinearLayout>
+
+
+
