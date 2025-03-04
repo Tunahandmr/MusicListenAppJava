@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization") version "2.0.21"
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -30,6 +32,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,5 +47,43 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation ("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    // Retrofit
+    val retrofitVersion = "2.3.0"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
+
+    // RxJava
+    val rxJavaVersion = "2.1.1"
+    implementation ("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
+    implementation ("io.reactivex.rxjava2:rxandroid:$rxJavaVersion")
+
+    // RecyclerView
+    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    // Navigation
+    val nav_version = "2.8.8"
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    // ExoPlayer
+    implementation ("androidx.media3:media3-exoplayer:1.5.1")
+    implementation ("androidx.media3:media3-ui:1.5.1")
+    implementation ("androidx.media3:media3-common:1.5.1")
+
+    implementation ("com.google.android.exoplayer:exoplayer:2.18.0")
+    implementation ("com.google.android.exoplayer:exoplayer-ui:2.18.0")
 }
