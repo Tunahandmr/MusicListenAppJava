@@ -12,7 +12,20 @@
           "package_name": "com.tunahan.musiclistenappjava"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "551477097001-sl45sh6gu60dqark037o5hj4573cs2he.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tunahan.musiclistenappjava",
+            "certificate_hash": "d9b420d3fcccc980f4bdf614a4b5c92401071472"
+          }
+        },
+        {
+          "client_id": "551477097001-f9r2oovmaklaq4mdv49ud82rdp60lh07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBhcD4vLqNqwUkvEapapw6onr5p5g3PUmw"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551477097001-f9r2oovmaklaq4mdv49ud82rdp60lh07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
