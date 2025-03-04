@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MusicListenAppJava</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="client_id" translatable="false">551477097001-f9r2oovmaklaq4mdv49ud82rdp60lh07.apps.googleusercontent.com</string>
+    <string name="search_bar_hint">Search song or artist</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="password">Password</string>
+    <string name="email">E-mail</string>
+    <string name="full_name">Full name</string>
 </resources>
