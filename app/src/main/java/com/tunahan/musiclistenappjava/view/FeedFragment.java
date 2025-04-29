@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.tunahan.musiclistenappjava.model.Playlist;
 import com.tunahan.musiclistenappjava.model.TrackCollection;
 import com.tunahan.musiclistenappjava.service.DeezerAPI;
 import com.tunahan.musiclistenappjava.service.SearchAPI;
+import com.tunahan.musiclistenappjava.viewmodel.MainViewModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -32,11 +34,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FeedFragment extends Fragment {
     private FragmentFeedBinding binding;
-
-    Retrofit retrofit;
-    CompositeDisposable compositeDisposable;
-    RecyclerView recyclerView;
-    TrackRecyclerAdapter trackRecyclerAdapter;
+    private Retrofit retrofit;
+    private CompositeDisposable compositeDisposable;
+    private RecyclerView recyclerView;
+    private TrackRecyclerAdapter trackRecyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -52,15 +53,36 @@ public class FeedFragment extends Fragment {
 
         recyclerView = binding.recyclerView;
 
-        Gson gson = new GsonBuilder().setLenient().create();
+        MainViewModel viewModel = new ViewModelProvider(
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())
+        ).get(MainViewModel.class);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.deezer.com/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
 
-        loadData();
+        viewModel.getNetworkStatus().observe(getViewLifecycleOwner(), isConnected -> {
+            if (isConnected) {
+                // internet var
+                binding.textViewInternetNotFound.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.searchView.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                Gson gson = new GsonBuilder().setLenient().create();
+
+                retrofit = new Retrofit.Builder()
+                        .baseUrl("https://api.deezer.com/")
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+                loadData();
+            } else {
+                // internet yok
+                binding.textViewInternetNotFound.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.searchView.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.GONE);
+            }
+        });
+
         setupView();
 
     }
@@ -87,12 +109,15 @@ public class FeedFragment extends Fragment {
 
     private void handleResponse(Playlist playlist) {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), playlist.getTracks().getData(), (songUrl, imageUrl) -> {
+        trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), playlist.getTracks().getData(), (songUrl, imageUrl, songName, artistName) -> {
             FeedFragmentDirections.ActionFeedFragmentToListenMusicFragment action =
-                    FeedFragmentDirections.actionFeedFragmentToListenMusicFragment(songUrl, imageUrl);
+                    FeedFragmentDirections.actionFeedFragmentToListenMusicFragment(songUrl, imageUrl, songName, artistName);
             Navigation.findNavController(requireView()).navigate(action);
         });
         recyclerView.setAdapter(trackRecyclerAdapter);
+        if (!playlist.getTracks().getData().isEmpty()) {
+            binding.progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void searchHandleResponse(TrackCollection trackCollection) {

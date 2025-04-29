@@ -15,6 +15,12 @@
         <argument
             android:name="imageUrl"
             app:argType="string" />
+        <argument
+            android:name="songName"
+            app:argType="string" />
+        <argument
+            android:name="artistName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -38,14 +44,34 @@
         <action
             android:id="@+id/action_feedFragment_to_listenMusicFragment"
             app:destination="@id/listenMusicFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_downloadFragment"
+            app:destination="@id/downloadFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.tunahan.musiclistenappjava.view.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.tunahan.musiclistenappjava.view.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadFragment"
+        android:name="com.tunahan.musiclistenappjava.view.DownloadFragment"
+        android:label="fragment_download"
+        tools:layout="@layout/fragment_download" >
+        <action
+            android:id="@+id/action_downloadFragment_to_listenMusicFragment"
+            app:destination="@id/listenMusicFragment" />
+    </fragment>
 </navigation>
