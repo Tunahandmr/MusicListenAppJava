@@ -1,16 +1,18 @@
 package com.tunahan.musiclistenappjava.view;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,12 +28,12 @@ import com.tunahan.musiclistenappjava.databinding.FragmentMainBinding;
 
 public class MainFragment extends Fragment {
     private FragmentMainBinding binding;
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
-    public View onCreateView (LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -42,7 +44,7 @@ public class MainFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null) {
             Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment_to_feedFragment);
         }
     }
@@ -55,7 +57,7 @@ public class MainFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_loginFragment);
         });
 
-        binding.buttonSignUp.setOnClickListener(v->{
+        binding.buttonSignUp.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_signUpFragment);
         });
 
@@ -96,7 +98,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void signInWithGoogle(){
+    private void signInWithGoogle() {
         String clientId = getString(R.string.client_id);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
