@@ -3,11 +3,14 @@ package com.tunahan.musiclistenappjava.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.tunahan.musiclistenappjava.databinding.TrackRowBinding;
 import com.tunahan.musiclistenappjava.model.Track;
+
 import java.util.List;
 
 public class TrackRecyclerAdapter extends RecyclerView.Adapter<TrackRecyclerAdapter.TrackViewHolder> {
@@ -17,7 +20,7 @@ public class TrackRecyclerAdapter extends RecyclerView.Adapter<TrackRecyclerAdap
     private final OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
-        void OnItemClick(String songUrl, String imageUrl);
+        void OnItemClick(String songUrl, String imageUrl, String songName, String artistName);
     }
 
     public TrackRecyclerAdapter(Context context, List<Track> trackList, OnItemClickListener onItemClickListener) {
@@ -41,13 +44,13 @@ public class TrackRecyclerAdapter extends RecyclerView.Adapter<TrackRecyclerAdap
         holder.binding.textViewArtistName.setText(currentTrack.getArtist().getName());
 
         String imageUrl = currentTrack.getAlbum().getCoverBig();
-        if (imageUrl!=null) {
+        if (imageUrl != null) {
             Glide.with(context)
                     .load(imageUrl)
                     .into(holder.binding.imageViewSongImage);
         }
 
-        holder.itemView.setOnClickListener(v -> onItemClickListener.OnItemClick(currentTrack.getPreview(), imageUrl));
+        holder.itemView.setOnClickListener(v -> onItemClickListener.OnItemClick(currentTrack.getPreview(), imageUrl, currentTrack.getTitle(), currentTrack.getArtist().getName()));
     }
 
     @Override
@@ -65,7 +68,7 @@ public class TrackRecyclerAdapter extends RecyclerView.Adapter<TrackRecyclerAdap
         }
     }
 
-    public void updateData(List<Track> trackList){
+    public void updateData(List<Track> trackList) {
         this.trackList = trackList;
         notifyDataSetChanged();
     }
