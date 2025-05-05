@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment {
             Navigation.findNavController(v).popBackStack();
         });
         binding.signInButton.setOnClickListener(v -> signIn());
+        binding.forgotPasswordText.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_forgotPasswordFragment));
     }
 
     private void signIn() {

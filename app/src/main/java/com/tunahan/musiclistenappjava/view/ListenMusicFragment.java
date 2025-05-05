@@ -1,6 +1,7 @@
 package com.tunahan.musiclistenappjava.view;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
@@ -18,16 +20,23 @@ import androidx.room.Room;
 import android.os.Environment;
 import android.os.Looper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.databinding.FragmentListenMusicBinding;
-import com.tunahan.musiclistenappjava.local.DownloadDao;
-import com.tunahan.musiclistenappjava.local.DownloadDatabase;
-import com.tunahan.musiclistenappjava.local.DownloadMusic;
+import com.tunahan.musiclistenappjava.local.download.DownloadDao;
+import com.tunahan.musiclistenappjava.local.download.DownloadDatabase;
+import com.tunahan.musiclistenappjava.local.download.DownloadMusic;
+import com.tunahan.musiclistenappjava.local.favorite.Favorites;
+import com.tunahan.musiclistenappjava.local.favorite.FavoritesDao;
+import com.tunahan.musiclistenappjava.local.favorite.FavoritesDatabase;
 import com.tunahan.musiclistenappjava.viewmodel.MainViewModel;
 
 import java.io.File;
@@ -40,6 +49,8 @@ public class ListenMusicFragment extends Fragment {
     private DownloadDatabase db;
     private DownloadDao musicDao;
 
+    private FavoritesDao favoritesDao;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +60,9 @@ public class ListenMusicFragment extends Fragment {
                 .build();
 
         musicDao = db.downloadDao();
+
+        favoritesDao = FavoritesDatabase.getInstance(requireContext()).favoritesDao();
+
     }
 
     @Override
@@ -63,16 +77,17 @@ public class ListenMusicFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         startAnimation();
+        setUpView();
         args = ListenMusicFragmentArgs.fromBundle(getArguments());
         player = new ExoPlayer.Builder(requireContext()).build();
+
+        binding.textViewSongName.setText(args.getSongName());
+        binding.textViewArtistName.setText(args.getArtistName());
 
         binding.backButton.setOnClickListener(v -> {
             exitAnimation();
         });
 
-        binding.downloadButton.setOnClickListener(v -> {
-            downloadMusic();
-        });
 
         MainViewModel viewModel = new ViewModelProvider(
                 requireActivity(),
@@ -96,7 +111,7 @@ public class ListenMusicFragment extends Fragment {
                             .into(binding.imageView);
                 }
                 binding.textViewOffline.setVisibility(View.VISIBLE);
-                binding.downloadButton.setVisibility(View.GONE);
+                binding.moreButton.setVisibility(View.GONE);
                 playOfflineMusic();
             }
         });
@@ -118,6 +133,21 @@ public class ListenMusicFragment extends Fragment {
         animator.setDuration(500); // 500ms sürede hareket et
         animator.setInterpolator(new AccelerateDecelerateInterpolator()); // Akıcı geçiş
         animator.start();
+    }
+
+    public void addFavorite() {
+        Favorites favorites = new Favorites();
+        favorites.artistName = args.getArtistName();
+        favorites.songName = args.getSongName();
+        favorites.imageUrl = args.getImageUrl();
+        favorites.songUrl = args.getSongUrl();
+        favoritesDao.insertFavorites(favorites);
+        Toast.makeText(requireContext(), getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteFavorite() {
+        favoritesDao.deleteFavoriteByName(args.getSongName());
+        Toast.makeText(requireContext(), getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
     }
 
     public void exitAnimation() {
@@ -164,7 +194,7 @@ public class ListenMusicFragment extends Fragment {
         music.songUrl = args.getSongUrl();
         musicDao.insertMusic(music);
 
-        Toast.makeText(requireContext(), "Müzik indirildi ve kaydedildi", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), args.getSongName() + getString(R.string.successfully_downloaded), Toast.LENGTH_SHORT).show();
     }
 
     public void playOfflineMusic() {
@@ -172,7 +202,7 @@ public class ListenMusicFragment extends Fragment {
         // Dışa kaydedilen müzik dosyasının yolu
         File file = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC), args.getSongName() + ".mp3");
 
-// Dosya var mı diye kontrol et
+        // Dosya var mı diye kontrol et
         if (file.exists()) {
             Uri uri = Uri.fromFile(file);
             MediaItem mediaItem = MediaItem.fromUri(uri);
@@ -180,10 +210,51 @@ public class ListenMusicFragment extends Fragment {
             player.prepare();
             player.play();
         } else {
-            Toast.makeText(requireContext(), "Dosya bulunamadı", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.file_not_found), Toast.LENGTH_SHORT).show();
         }
     }
 
+
+    private void setUpView() {
+
+        binding.moreButton.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(requireContext(), binding.moreButton);
+            popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());
+
+            if (favoritesDao.isFavorite(args.getSongName())) {
+                popupMenu.getMenu().findItem(R.id.favorites).setTitle(getString(R.string.remove_favorites));
+            } else {
+                popupMenu.getMenu().findItem(R.id.favorites).setTitle(getString(R.string.add_favorites));
+            }
+            // Menü öğelerine tıklama işlemleri
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.download) {
+                    downloadMusic();
+                    return true;
+                } else if (id == R.id.favorites) {
+                    if (favoritesDao.isFavorite(args.getSongName())) {
+                        deleteFavorite();
+                    } else {
+                        addFavorite();
+                    }
+                    return true;
+                } else if (id == R.id.playlist) {
+                    ListenMusicFragmentDirections.ActionListenMusicFragmentToAddMusicPlaylistFragment action =
+                            ListenMusicFragmentDirections.actionListenMusicFragmentToAddMusicPlaylistFragment(args.getSongUrl(),
+                                    args.getImageUrl(),
+                                    args.getSongName(),
+                                    args.getArtistName());
+                    Navigation.findNavController(requireView()).navigate(action);
+                    return true;
+                }
+                return false;
+            });
+
+            popupMenu.show();
+        });
+
+    }
 
     @Override
     public void onDestroyView() {
