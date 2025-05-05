@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tunahan.musiclistenappjava.databinding.TrackRowBinding;
-import com.tunahan.musiclistenappjava.local.DownloadMusic;
+import com.tunahan.musiclistenappjava.local.download.DownloadMusic;
 
 import java.io.File;
 import java.util.List;

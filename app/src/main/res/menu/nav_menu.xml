@@ -3,10 +3,26 @@
 
     <item
         android:id="@+id/feedFragment"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/baseline_home"/>
+
+    <item
+        android:id="@+id/favoriteFragment"
+        android:title="@string/favorites"
+        android:icon="@drawable/baseline_favorite"/>
+
+    <item
+        android:id="@+id/searchFragment"
+        android:title="@string/search"
+        android:icon="@drawable/baseline_search"/>
+
+    <item
+        android:id="@+id/playlistFragment"
+        android:title="@string/playlist"
+        android:icon="@drawable/baseline_library_add"/>
     <item
         android:id="@+id/downloadFragment"
-        android:title="Download"
+        android:title="@string/downloads"
         android:icon="@drawable/baseline_download"/>
+
 </menu>

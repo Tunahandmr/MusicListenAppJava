@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.tunahan.musiclistenappjava.adapter.DownloadAdapter;
 import com.tunahan.musiclistenappjava.databinding.FragmentDownloadBinding;
-import com.tunahan.musiclistenappjava.local.DownloadDao;
-import com.tunahan.musiclistenappjava.local.DownloadDatabase;
-import com.tunahan.musiclistenappjava.local.DownloadMusic;
+import com.tunahan.musiclistenappjava.local.download.DownloadDao;
+import com.tunahan.musiclistenappjava.local.download.DownloadDatabase;
+import com.tunahan.musiclistenappjava.local.download.DownloadMusic;
 import java.util.List;
 
 public class DownloadFragment extends Fragment {

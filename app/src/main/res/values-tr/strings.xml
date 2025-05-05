@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Müzik Dinleme Uygulaması</string>
+    <string name="search_bar_hint">Şarkı veya sanatçı ara</string>
+    <string name="forgot_password">Şifreni mi unuttun?</string>
+    <string name="sign_in">Giriş yap</string>
+    <string name="sign_up">Kayıt ol</string>
+    <string name="password">Şifre</string>
+    <string name="email">E-mail</string>
+    <string name="full_name">Tam ismin</string>
+    <string name="disconnected">İnternet bağlantısı bulunamadı!</string>
+    <string name="offline">Çevrimdışısın!</string>
+    <string name="home">Ana Sayfa</string>
+    <string name="downloads">İndirilenler</string>
+    <string name="search">Ara</string>
+    <string name="favorites">Favoriler</string>
+    <string name="playlist">Playlist</string>
+    <string name="give_your_playlist_a_name">Playlistine bir isim ver</string>
+    <string name="cancel">İptal et</string>
+    <string name="save">Kaydet</string>
+    <string name="playlist_name">Playlist ismini gir</string>
+    <string name="successfully_registered">Başarıyla kaydedildi!</string>
+    <string name="download">İndir</string>
+    <string name="add_favorites">Favorilere Ekle</string>
+    <string name="remove_favorites">Favorilerden Kaldır</string>
+    <string name="add_playlist">Çalma Listesine Ekle</string>
+    <string name="music">Şarkı</string>
+    <string name="create_new_playlist">Yeni çalma listesi oluştur</string>
+    <string name="added_favorites">Favorilere eklendi!</string>
+    <string name="removed_from_favorites">Favorilerden kaldırıldı!</string>
+    <string name="successfully_downloaded"> başarıyla indirildi!</string>
+    <string name="file_not_found">Dosya bulunamadı</string>
+
+</resources>
