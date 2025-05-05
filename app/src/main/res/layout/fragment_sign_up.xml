@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up"
                     android:textAlignment="center"
-                    android:textSize="36sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout

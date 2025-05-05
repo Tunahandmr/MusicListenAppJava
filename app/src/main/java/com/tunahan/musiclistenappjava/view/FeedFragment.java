@@ -36,7 +36,6 @@ public class FeedFragment extends Fragment {
     private FragmentFeedBinding binding;
     private Retrofit retrofit;
     private CompositeDisposable compositeDisposable;
-    private RecyclerView recyclerView;
     private TrackRecyclerAdapter trackRecyclerAdapter;
 
     @Override
@@ -50,9 +49,6 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        recyclerView = binding.recyclerView;
-
         MainViewModel viewModel = new ViewModelProvider(
                 requireActivity(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())
@@ -64,7 +60,6 @@ public class FeedFragment extends Fragment {
                 // internet var
                 binding.textViewInternetNotFound.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.VISIBLE);
-                binding.searchView.setVisibility(View.VISIBLE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 Gson gson = new GsonBuilder().setLenient().create();
 
@@ -78,13 +73,9 @@ public class FeedFragment extends Fragment {
                 // internet yok
                 binding.textViewInternetNotFound.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
-                binding.searchView.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.GONE);
             }
         });
-
-        setupView();
-
     }
 
     private void loadData() {
@@ -97,16 +88,6 @@ public class FeedFragment extends Fragment {
                 .subscribe(this::handleResponse));
     }
 
-    private void searchData(String query) {
-        final SearchAPI searchAPI = retrofit.create(SearchAPI.class);
-        compositeDisposable = new CompositeDisposable();
-
-        compositeDisposable.add(searchAPI.getSearch(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::searchHandleResponse));
-    }
-
     private void handleResponse(Playlist playlist) {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), playlist.getTracks().getData(), (songUrl, imageUrl, songName, artistName) -> {
@@ -114,32 +95,14 @@ public class FeedFragment extends Fragment {
                     FeedFragmentDirections.actionFeedFragmentToListenMusicFragment(songUrl, imageUrl, songName, artistName);
             Navigation.findNavController(requireView()).navigate(action);
         });
-        recyclerView.setAdapter(trackRecyclerAdapter);
+        binding.recyclerView.setAdapter(trackRecyclerAdapter);
         if (!playlist.getTracks().getData().isEmpty()) {
             binding.progressBar.setVisibility(View.GONE);
         }
     }
 
-    private void searchHandleResponse(TrackCollection trackCollection) {
-        trackRecyclerAdapter.updateData(trackCollection.getData());
-    }
 
-    private void setupView() {
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!newText.isEmpty()) {
-                    searchData(newText);
-                }
-                return true;
-            }
-        });
-    }
 
     @Override
     public void onDestroyView() {

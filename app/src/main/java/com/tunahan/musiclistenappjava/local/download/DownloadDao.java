@@ -1,4 +1,4 @@
-package com.tunahan.musiclistenappjava.local;
+package com.tunahan.musiclistenappjava.local.download;
 
 import androidx.room.Dao;
 import androidx.room.Insert;

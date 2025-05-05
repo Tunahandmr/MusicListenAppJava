@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.loginFragment ||
                     id == R.id.signUpFragment ||
                     id == R.id.listenMusicFragment ||
-                    id == R.id.mainFragment) {
+                    id == R.id.mainFragment ||
+                    id == R.id.forgotPasswordFragment) {
                 binding.bottomNavigationView.setVisibility(View.GONE);
             } else {
                 binding.bottomNavigationView.setVisibility(View.VISIBLE);

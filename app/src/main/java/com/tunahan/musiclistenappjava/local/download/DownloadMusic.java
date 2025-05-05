@@ -1,4 +1,4 @@
-package com.tunahan.musiclistenappjava.local;
+package com.tunahan.musiclistenappjava.local.download;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
