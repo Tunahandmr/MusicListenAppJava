@@ -13,13 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tunahan.musiclistenappjava.R;
-import com.tunahan.musiclistenappjava.adapter.FavoriteAdapter;
 import com.tunahan.musiclistenappjava.adapter.PlaylistAdapter;
 import com.tunahan.musiclistenappjava.databinding.FragmentPlaylistBinding;
 import com.tunahan.musiclistenappjava.local.playlist.Playlist;
 import com.tunahan.musiclistenappjava.local.playlist.PlaylistDao;
 import com.tunahan.musiclistenappjava.local.playlist.PlaylistDatabase;
-import com.tunahan.musiclistenappjava.local.playlist.Song;
 import com.tunahan.musiclistenappjava.local.playlist.SongDao;
 import com.tunahan.musiclistenappjava.util.Constants;
 
@@ -29,7 +27,6 @@ import java.util.List;
 
 public class PlaylistFragment extends Fragment {
     private FragmentPlaylistBinding binding;
-    private PlaylistAdapter playlistAdapter;
     private PlaylistDao playlistDao;
     private SongDao songDao;
 
@@ -62,13 +59,13 @@ public class PlaylistFragment extends Fragment {
             songCount.add(songDao.getSongsByPlaylistName(playlist.name).size());
             if (songDao.getSongsByPlaylistName(playlist.name).isEmpty()) {
                 playlistImage.add(Constants.IMAGE_PLACE_HOLDER);
-            }else {
+            } else {
                 playlistImage.add(songDao.getSongsByPlaylistName(playlist.name).get(0).imageUrl);
             }
         }
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        playlistAdapter = new PlaylistAdapter(requireContext(), playlistList, songCount, playlistImage, playlistName -> {
+        PlaylistAdapter playlistAdapter = new PlaylistAdapter(requireContext(), playlistList, songCount, playlistImage, playlistName -> {
             PlaylistFragmentDirections.ActionPlaylistFragmentToPlaylistDetailFragment action =
                     PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistDetailFragment(playlistName);
             Navigation.findNavController(requireView()).navigate(action);

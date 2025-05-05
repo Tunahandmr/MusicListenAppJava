@@ -12,16 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.adapter.FavoriteAdapter;
-import com.tunahan.musiclistenappjava.adapter.TrackRecyclerAdapter;
 import com.tunahan.musiclistenappjava.databinding.FragmentFavoriteBinding;
 import com.tunahan.musiclistenappjava.local.favorite.Favorites;
 import com.tunahan.musiclistenappjava.local.favorite.FavoritesDao;
 import com.tunahan.musiclistenappjava.local.favorite.FavoritesDatabase;
-import com.tunahan.musiclistenappjava.model.Track;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,9 +28,9 @@ public class FavoriteFragment extends Fragment {
 
 
     @Override
-    public View onCreateView (LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -43,17 +39,15 @@ public class FavoriteFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         favoritesDao = FavoritesDatabase.getInstance(requireContext()).favoritesDao();
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setUpView();
     }
 
-    private void setUpView(){
+    private void setUpView() {
         List<Favorites> favoritesList = favoritesDao.getFavorites();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 

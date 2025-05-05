@@ -20,6 +20,7 @@ import com.tunahan.musiclistenappjava.databinding.FragmentSearchBinding;
 import com.tunahan.musiclistenappjava.model.Track;
 import com.tunahan.musiclistenappjava.model.TrackCollection;
 import com.tunahan.musiclistenappjava.service.SearchAPI;
+import com.tunahan.musiclistenappjava.util.Constants;
 
 import java.util.ArrayList;
 
@@ -34,13 +35,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private Retrofit retrofit;
-    private CompositeDisposable compositeDisposable;
     private TrackRecyclerAdapter trackRecyclerAdapter;
 
     @Override
-    public View onCreateView (LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -50,7 +50,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Gson gson = new GsonBuilder().setLenient().create();
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.deezer.com/")
+                .baseUrl(Constants.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -59,13 +59,14 @@ public class SearchFragment extends Fragment {
 
     private void searchData(String query) {
         final SearchAPI searchAPI = retrofit.create(SearchAPI.class);
-        compositeDisposable = new CompositeDisposable();
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
 
         compositeDisposable.add(searchAPI.getSearch(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::searchHandleResponse));
     }
+
     private void setupView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), new ArrayList<Track>(), (songUrl, imageUrl, songName, artistName) -> {
@@ -93,6 +94,7 @@ public class SearchFragment extends Fragment {
     private void searchHandleResponse(TrackCollection trackCollection) {
         trackRecyclerAdapter.updateData(trackCollection.getData());
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

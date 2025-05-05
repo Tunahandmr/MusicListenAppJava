@@ -1,7 +1,6 @@
 package com.tunahan.musiclistenappjava.view;
 
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
@@ -15,14 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.navigation.Navigation;
-import androidx.room.Room;
 
 import android.os.Environment;
 import android.os.Looper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -43,26 +38,18 @@ import java.io.File;
 
 public class ListenMusicFragment extends Fragment {
     private FragmentListenMusicBinding binding;
-
     private ExoPlayer player;
     private ListenMusicFragmentArgs args;
-    private DownloadDatabase db;
     private DownloadDao musicDao;
-
     private FavoritesDao favoritesDao;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = Room.databaseBuilder(requireContext(),
-                        DownloadDatabase.class, "music-db")
-                .allowMainThreadQueries()
-                .build();
 
-        musicDao = db.downloadDao();
+        musicDao = DownloadDatabase.getInstance(requireContext()).downloadDao();
 
         favoritesDao = FavoritesDatabase.getInstance(requireContext()).favoritesDao();
-
     }
 
     @Override
@@ -170,14 +157,14 @@ public class ListenMusicFragment extends Fragment {
         // Müzik dosyasını indir
         DownloadManager.Request musicRequest = new DownloadManager.Request(Uri.parse(args.getSongUrl()));
         musicRequest.setTitle(args.getSongName());
-        musicRequest.setDescription("Müzik indiriliyor...");
+        musicRequest.setDescription(getString(R.string.music_download));
         musicRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         musicRequest.setDestinationInExternalFilesDir(requireContext(), Environment.DIRECTORY_MUSIC, args.getSongName() + ".mp3");
 
 // Kapak görselini indir (örneğin JPG veya PNG olabilir)
         DownloadManager.Request imageRequest = new DownloadManager.Request(Uri.parse(args.getImageUrl()));
-        imageRequest.setTitle(args.getSongName() + " Kapak Görseli");
-        imageRequest.setDescription("Görsel indiriliyor...");
+        imageRequest.setTitle(args.getSongName() + " " + getString(R.string.cover_image));
+        imageRequest.setDescription(getString(R.string.image_download));
         imageRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         imageRequest.setDestinationInExternalFilesDir(requireContext(), Environment.DIRECTORY_PICTURES, args.getSongName() + "_cover.jpg");
 

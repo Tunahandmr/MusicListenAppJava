@@ -25,10 +25,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.databinding.FragmentMainBinding;
+import com.tunahan.musiclistenappjava.util.Constants;
 
 public class MainFragment extends Fragment {
     private FragmentMainBinding binding;
-    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -41,8 +41,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
             Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment_to_feedFragment);
@@ -67,13 +66,11 @@ public class MainFragment extends Fragment {
 
     }
 
-    private static final int RC_SIGN_IN = 9001; // İstek kodu
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) { // Google Sign-In işlemi sonucu döndü mü?
+        if (requestCode == Constants.RC_SIGN_IN) { // Google Sign-In işlemi sonucu döndü mü?
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -85,14 +82,14 @@ public class MainFragment extends Fragment {
                             if (task1.isSuccessful()) {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String displayName = user.getDisplayName();
-                                Toast.makeText(requireContext(), "Welcome " + displayName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), getString(R.string.welcome) + displayName, Toast.LENGTH_SHORT).show();
                                 Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment_to_feedFragment);
                             } else {
-                                Toast.makeText(requireContext(), "Sign-in failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), getString(R.string.sign_in_failed), Toast.LENGTH_SHORT).show();
                             }
                         });
             } catch (ApiException e) {
-                Toast.makeText(requireContext(), "Google Sign-in Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.sign_in_failed), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -106,11 +103,10 @@ public class MainFragment extends Fragment {
                 .requestEmail()
                 .build();
 
-        // Build a GoogleSignInClient with the options
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, Constants.RC_SIGN_IN);
     }
 
     @Override

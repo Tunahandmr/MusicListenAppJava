@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "551477097001-sl45sh6gu60dqark037o5hj4573cs2he.apps.googleusercontent.com",
+          "client_id": "551477097001-kgk8nupoub8j2frh3vjkgpugsnf8lsp0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tunahan.musiclistenappjava",
-            "certificate_hash": "d9b420d3fcccc980f4bdf614a4b5c92401071472"
+            "certificate_hash": "15f431df85fd01c60564461bf71d9ef5829e6104"
           }
         },
         {
