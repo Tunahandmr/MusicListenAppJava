@@ -12,12 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tunahan.musiclistenappjava.R;
-import com.tunahan.musiclistenappjava.adapter.DownloadAdapter;
 import com.tunahan.musiclistenappjava.adapter.PlaylistDetailAdapter;
-import com.tunahan.musiclistenappjava.adapter.TrackRecyclerAdapter;
 import com.tunahan.musiclistenappjava.databinding.FragmentPlaylistDetailBinding;
-import com.tunahan.musiclistenappjava.local.download.DownloadMusic;
 import com.tunahan.musiclistenappjava.local.playlist.PlaylistDatabase;
 import com.tunahan.musiclistenappjava.local.playlist.Song;
 import com.tunahan.musiclistenappjava.local.playlist.SongDao;
@@ -28,7 +24,6 @@ public class PlaylistDetailFragment extends Fragment {
 
     private FragmentPlaylistDetailBinding binding;
     private SongDao songDao;
-    private PlaylistDetailAdapter playlistDetailAdapter;
 
     private PlaylistDetailFragmentArgs args;
 
@@ -39,9 +34,9 @@ public class PlaylistDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView (LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentPlaylistDetailBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -53,11 +48,11 @@ public class PlaylistDetailFragment extends Fragment {
         setupView();
     }
 
-    private void setupView(){
+    private void setupView() {
         binding.textViewPlaylistName.setText(args.getPlaylistName());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         List<Song> musicList = songDao.getSongsByPlaylistName(args.getPlaylistName());
-        playlistDetailAdapter = new PlaylistDetailAdapter(requireContext(), musicList, (songUrl, imageUrl, songName, artistName) -> {
+        PlaylistDetailAdapter playlistDetailAdapter = new PlaylistDetailAdapter(requireContext(), musicList, (songUrl, imageUrl, songName, artistName) -> {
 
             PlaylistDetailFragmentDirections.ActionPlaylistDetailFragmentToListenMusicFragment action =
                     PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToListenMusicFragment(songUrl, imageUrl, songName, artistName);
@@ -68,6 +63,7 @@ public class PlaylistDetailFragment extends Fragment {
 
         binding.imageViewBack.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

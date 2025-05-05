@@ -4,12 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +18,8 @@ import com.google.gson.GsonBuilder;
 import com.tunahan.musiclistenappjava.adapter.TrackRecyclerAdapter;
 import com.tunahan.musiclistenappjava.databinding.FragmentFeedBinding;
 import com.tunahan.musiclistenappjava.model.Playlist;
-import com.tunahan.musiclistenappjava.model.TrackCollection;
 import com.tunahan.musiclistenappjava.service.DeezerAPI;
-import com.tunahan.musiclistenappjava.service.SearchAPI;
+import com.tunahan.musiclistenappjava.util.Constants;
 import com.tunahan.musiclistenappjava.viewmodel.MainViewModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,8 +32,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FeedFragment extends Fragment {
     private FragmentFeedBinding binding;
     private Retrofit retrofit;
-    private CompositeDisposable compositeDisposable;
-    private TrackRecyclerAdapter trackRecyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -64,7 +59,7 @@ public class FeedFragment extends Fragment {
                 Gson gson = new GsonBuilder().setLenient().create();
 
                 retrofit = new Retrofit.Builder()
-                        .baseUrl("https://api.deezer.com/")
+                        .baseUrl(Constants.BASE_URL)
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
@@ -80,7 +75,7 @@ public class FeedFragment extends Fragment {
 
     private void loadData() {
         final DeezerAPI chartAPI = retrofit.create(DeezerAPI.class);
-        compositeDisposable = new CompositeDisposable();
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
 
         compositeDisposable.add(chartAPI.getDeezer()
                 .subscribeOn(Schedulers.io())
@@ -90,7 +85,7 @@ public class FeedFragment extends Fragment {
 
     private void handleResponse(Playlist playlist) {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), playlist.getTracks().getData(), (songUrl, imageUrl, songName, artistName) -> {
+        TrackRecyclerAdapter trackRecyclerAdapter = new TrackRecyclerAdapter(requireContext(), playlist.getTracks().getData(), (songUrl, imageUrl, songName, artistName) -> {
             FeedFragmentDirections.ActionFeedFragmentToListenMusicFragment action =
                     FeedFragmentDirections.actionFeedFragmentToListenMusicFragment(songUrl, imageUrl, songName, artistName);
             Navigation.findNavController(requireView()).navigate(action);
@@ -100,9 +95,6 @@ public class FeedFragment extends Fragment {
             binding.progressBar.setVisibility(View.GONE);
         }
     }
-
-
-
 
     @Override
     public void onDestroyView() {

@@ -58,7 +58,7 @@ public class AddMusicPlaylistFragment extends Fragment {
             for (Playlist playlist : playlistDao.getPlaylist()) {
                 RadioButton radioButton = new RadioButton(requireContext());
                 radioButton.setText(playlist.name);
-                radioButton.setId(View.generateViewId()); // Benzersiz ID atamak önemli
+                radioButton.setId(View.generateViewId());
                 radioButton.setTextSize(16);
                 binding.radioGroup.addView(radioButton);
             }

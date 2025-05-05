@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,21 +20,13 @@ import java.util.List;
 public class DownloadFragment extends Fragment {
 
     private FragmentDownloadBinding binding;
-    private DownloadAdapter downloadAdapter;
     private RecyclerView recyclerView;
-    private DownloadDatabase db;
     private DownloadDao downloadDao;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        db = Room.databaseBuilder(requireContext(),
-                        DownloadDatabase.class, "music-db")
-                .allowMainThreadQueries()
-                .build();
-
-        downloadDao = db.downloadDao();
+        downloadDao = DownloadDatabase.getInstance(requireContext()).downloadDao();
     }
 
     @Override
@@ -56,7 +47,7 @@ public class DownloadFragment extends Fragment {
     private void getData() {
         binding.downloadRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         List<DownloadMusic> musicList = downloadDao.getMusic();
-        downloadAdapter = new DownloadAdapter(requireContext(), musicList, (songUrl, imageUrl, songName, artistName) -> {
+        DownloadAdapter downloadAdapter = new DownloadAdapter(requireContext(), musicList, (songUrl, imageUrl, songName, artistName) -> {
 
             DownloadFragmentDirections.ActionDownloadFragmentToListenMusicFragment action =
                     DownloadFragmentDirections.actionDownloadFragmentToListenMusicFragment(songUrl, imageUrl, songName, artistName);

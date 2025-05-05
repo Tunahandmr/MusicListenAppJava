@@ -33,10 +33,8 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.feedFragment) {
-                // örnek işlem: navController.navigate(R.id.feedFragment);
                 return true;
             } else if (id == R.id.downloadFragment) {
-                // örnek işlem: navController.navigate(R.id.downloadFragment);
                 return true;
             }
             return false;

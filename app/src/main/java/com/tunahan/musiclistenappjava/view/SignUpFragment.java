@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.databinding.FragmentSignUpBinding;
+
+import java.util.Objects;
 
 public class SignUpFragment extends Fragment {
     private FragmentSignUpBinding binding;
@@ -23,7 +25,6 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -45,19 +46,16 @@ public class SignUpFragment extends Fragment {
     }
 
     public void saveNewUser(View view) {
-        String email = binding.emailET.getText().toString();
-        String password = binding.passwordET.getText().toString();
+        String email = Objects.requireNonNull(binding.emailET.getText()).toString();
+        String password = Objects.requireNonNull(binding.passwordET.getText()).toString();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(requireContext(), "Kayıt başarılı",
+                        Toast.makeText(requireContext(), getString(R.string.user_registration_successful),
                                 Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(view).navigate(SignUpFragmentDirections.actionSignUpFragmentToFeedFragment());
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(requireContext(), "Authentication failed.",
+                        Toast.makeText(requireContext(), Objects.requireNonNull(task.getException()).toString(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -30,5 +30,12 @@
     <string name="removed_from_favorites">Favorilerden kaldırıldı!</string>
     <string name="successfully_downloaded"> başarıyla indirildi!</string>
     <string name="file_not_found">Dosya bulunamadı</string>
-
+    <string name="email_sent">Email gönderildi</string>
+    <string name="sign_in_failed">Oturum açma başarısız</string>
+    <string name="welcome">Hoş geldin</string>
+    <string name="user_registration_successful">Kullanıcı kaydı başarılı</string>
+    <string name="authentication_failed">Kimlik doğrulama başarısız oldu</string>
+    <string name="music_download">Müzik indiriliyor…</string>
+    <string name="image_download">Görsel indiriliyor…</string>
+    <string name="cover_image">Kapak Görseli</string>
 </resources>

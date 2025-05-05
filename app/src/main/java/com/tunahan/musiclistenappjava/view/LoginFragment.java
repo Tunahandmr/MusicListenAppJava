@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.databinding.FragmentLoginBinding;
+
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
@@ -24,7 +25,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -47,17 +47,14 @@ public class LoginFragment extends Fragment {
     }
 
     private void signIn() {
-        String email = binding.emailET.getText().toString();
-        String password = binding.passwordET.getText().toString();
+        String email = Objects.requireNonNull(binding.emailET.getText()).toString();
+        String password = Objects.requireNonNull(binding.passwordET.getText()).toString();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser user = mAuth.getCurrentUser();
                         Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_feedFragment);
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(requireContext(), "Authentication failed.",
+                        Toast.makeText(requireContext(), getString(R.string.authentication_failed),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

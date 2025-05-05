@@ -30,4 +30,13 @@
     <string name="removed_from_favorites">Removed from favorites!</string>
     <string name="successfully_downloaded"> successfully downloaded!</string>
     <string name="file_not_found">File not found</string>
+    <string name="email_sent">Email sent</string>
+    <string name="sign_in_failed">Sign in failed</string>
+    <string name="welcome">Welcome</string>
+    <string name="user_registration_successful">User registration successful</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="music_download">Music downloading…</string>
+    <string name="image_download">Image downloading…</string>
+    <string name="cover_image">Cover Image</string>
+
 </resources>
