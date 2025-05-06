@@ -11,24 +11,6 @@ import androidx.lifecycle.LiveData;
 
 public class NetworkUtils extends LiveData<Boolean> {
 
-//    public static boolean isOnline(Context context) {
-//        ConnectivityManager connectivityManager = (ConnectivityManager)
-//                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//
-//        if (connectivityManager == null)
-//            return false;
-//
-//        Network network = connectivityManager.getActiveNetwork();
-//        if (network == null)
-//            return false;
-//
-//        NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
-//        return capabilities != null &&
-//                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-//                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-//                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
-//    }
-
     private final ConnectivityManager connectivityManager;
     private final ConnectivityManager.NetworkCallback networkCallback;
 

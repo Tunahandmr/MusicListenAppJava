@@ -21,6 +21,7 @@ public class ForgotPasswordFragment extends Fragment {
     private FragmentForgotPasswordBinding binding;
     private FirebaseAuth auth;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

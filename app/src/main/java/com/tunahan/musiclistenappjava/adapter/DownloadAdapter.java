@@ -57,6 +57,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
 
         holder.itemView.setOnClickListener(v -> onItemClickListener.OnItemClick(currentDownloadMusic.songUrl, currentDownloadMusic.imageUrl, currentDownloadMusic.songName, currentDownloadMusic.artistName));
 
+
         File imageFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), currentDownloadMusic.songName + "_cover.jpg");
         if (imageFile.exists()) {
             Glide.with(context)

@@ -3,19 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/download"
-        android:icon="@android:drawable/ic_menu_send"
         android:title="@string/download"
         app:showAsAction="collapseActionView" />
 
     <item
         android:id="@+id/favorites"
-        android:icon="@android:drawable/ic_menu_gallery"
         android:title="@string/add_favorites"
         app:showAsAction="collapseActionView" />
 
     <item
         android:id="@+id/playlist"
-        android:icon="@android:drawable/ic_menu_gallery"
         android:title="@string/add_playlist"
         app:showAsAction="collapseActionView" />
 </menu>

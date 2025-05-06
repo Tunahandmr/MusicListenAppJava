@@ -85,6 +85,8 @@ public class ListenMusicFragment extends Fragment {
         viewModel.getNetworkStatus().observe(getViewLifecycleOwner(), isConnected -> {
             if (isConnected) {
                 // internet var
+                binding.moreButton.setVisibility(View.VISIBLE);
+                binding.textViewOffline.setVisibility(View.GONE);
                 Glide.with(requireContext())
                         .load(args.getImageUrl())
                         .into(binding.imageView);
@@ -203,7 +205,6 @@ public class ListenMusicFragment extends Fragment {
 
 
     private void setUpView() {
-
         binding.moreButton.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(requireContext(), binding.moreButton);
             popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());

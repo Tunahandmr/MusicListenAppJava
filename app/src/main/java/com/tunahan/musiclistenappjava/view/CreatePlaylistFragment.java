@@ -20,6 +20,7 @@ import com.tunahan.musiclistenappjava.local.playlist.PlaylistDatabase;
 
 import java.util.Objects;
 
+
 public class CreatePlaylistFragment extends Fragment {
     private FragmentCreatePlaylistBinding binding;
     private PlaylistDao playlistDao;

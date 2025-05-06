@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.tunahan.musiclistenappjava.R;
 import com.tunahan.musiclistenappjava.databinding.ActivityMainBinding;
 
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 

@@ -26,7 +26,6 @@ public class FavoriteFragment extends Fragment {
     private FavoriteAdapter favoriteAdapter;
     private FavoritesDao favoritesDao;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,

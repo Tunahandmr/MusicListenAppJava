@@ -50,10 +50,11 @@ public class AddMusicPlaylistFragment extends Fragment {
     }
 
     private void setupView() {
+        binding.createPlaylistButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_addMusicPlaylistFragment_to_createPlaylistFragment));
+
         if (playlistDao.getPlaylist().isEmpty()) {
             binding.cancelButton.setVisibility(View.GONE);
             binding.saveButton.setVisibility(View.GONE);
-            binding.createPlaylistButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_addMusicPlaylistFragment_to_createPlaylistFragment));
         } else {
             for (Playlist playlist : playlistDao.getPlaylist()) {
                 RadioButton radioButton = new RadioButton(requireContext());

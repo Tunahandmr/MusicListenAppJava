@@ -18,9 +18,7 @@ import com.tunahan.musiclistenappjava.local.download.DownloadMusic;
 import java.util.List;
 
 public class DownloadFragment extends Fragment {
-
     private FragmentDownloadBinding binding;
-    private RecyclerView recyclerView;
     private DownloadDao downloadDao;
 
     @Override
@@ -40,7 +38,6 @@ public class DownloadFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = binding.downloadRecyclerView;
         getData();
     }
 
@@ -54,7 +51,7 @@ public class DownloadFragment extends Fragment {
 
             Navigation.findNavController(requireView()).navigate(action);
         });
-        recyclerView.setAdapter(downloadAdapter);
+        binding.downloadRecyclerView.setAdapter(downloadAdapter);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class SignUpFragment extends Fragment {
                                 Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(view).navigate(SignUpFragmentDirections.actionSignUpFragmentToFeedFragment());
                     } else {
-                        Toast.makeText(requireContext(), Objects.requireNonNull(task.getException()).toString(),
+                        Toast.makeText(requireContext(), Objects.requireNonNull(task.getException().getMessage()).toString(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
